@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Best Value – Kosher Catalog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+    <button class="icon-btn" id="menu-btn" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    <div class="logo">
+      <span class="logo-bv">BV</span>
+      <div class="logo-text">
+        <span class="logo-main">BEST VALUE</span>
+        <span class="logo-sub">Kosher Distributor · Miami</span>
+      </div>
+    </div>
+    <div style="width:38px"></div>
+  </header>
+
+  <!-- SEARCH BAR -->
+  <div id="search-bar">
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="search-input" placeholder="Buscar producto, SKU, marca..." autocomplete="off" />
+    </div>
+    <button id="filter-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+      </svg>
+      Filtros
+    </button>
+  </div>
+
+  <!-- ACTIVE FILTER TAGS -->
+  <div id="active-filters"></div>
+
+  <!-- MAIN CONTENT -->
+  <!-- HERO -->
+  <section id="hero">
+    <div id="hero-content">
+      <div id="hero-eyebrow">Welcome to Best Value Food Products</div>
+      <h1 id="hero-title">We are committed to delivering the quality your customers deserve.</h1>
+      <p id="hero-sub">At Best Value, we understand that quality is more than just a promise — it's what sets your business apart. Discover how we bring only the best to your shelves.</p>
+    </div>
+  </section>
+
+  <main id="main">
+    <div id="results-bar"></div>
+    <div id="loading">
+      <div class="spinner"></div>
+      <div>Cargando catálogo...</div>
+    </div>
+    <div id="product-grid"></div>
+    <div id="empty-state">
+      <div class="empty-emoji">🔍</div>
+      <div class="empty-title">Sin resultados</div>
+      <div class="empty-sub">Intenta con otra búsqueda o limpia los filtros</div>
+    </div>
+    <div id="load-more-wrap">
+      <button id="load-more-btn">Cargar más productos</button>
+    </div>
+  </main>
+
+  <!-- SIDEBAR OVERLAY -->
+  <div id="sidebar-overlay"></div>
+  <nav id="sidebar">
+    <div id="sidebar-header">
+      <div class="logo">
+        <span class="logo-bv">BV</span>
+        <div class="logo-text">
+          <span class="logo-main">BEST VALUE</span>
+          <span class="logo-sub">Kosher Distributor</span>
+        </div>
+      </div>
+      <button class="icon-btn" id="sidebar-close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div id="sidebar-body">
+      <button class="sidebar-item" onclick="clearAllFilters(); closeSidebar()">
+        <span class="sidebar-icon">🏠</span> Home
+      </button>
+      <div class="sidebar-divider"></div>
+
+      <div class="accordion-header" id="acc-cat-header">
+        <div class="acc-left"><span class="sidebar-icon">📦</span> Our Products</div>
+        <span class="accordion-arrow" id="acc-cat-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </div>
+      <div class="accordion-body" id="acc-cat-body"></div>
+
+      <div class="accordion-header" id="acc-brand-header">
+        <div class="acc-left"><span class="sidebar-icon">🏷️</span> Our Brands</div>
+        <span class="accordion-arrow" id="acc-brand-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </div>
+      <div class="accordion-body" id="acc-brand-body"></div>
+
+      <div class="sidebar-divider"></div>
+      <button class="sidebar-item" onclick="filterBySeason('Passover'); closeSidebar()">
+        <span class="sidebar-icon">🎉</span> Passover
+      </button>
+      <button class="sidebar-item"><span class="sidebar-icon">ℹ️</span> About Us</button>
+      <button class="sidebar-item"><span class="sidebar-icon">📞</span> Contact</button>
+    </div>
+  </nav>
+
+  <!-- FILTER DRAWER -->
+  <div id="filter-overlay"></div>
+  <div id="filter-drawer">
+    <div id="filter-drawer-handle"></div>
+    <div id="filter-drawer-header">
+      <h3>Filtros</h3>
+      <button class="icon-btn dark" id="filter-drawer-close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div id="filter-drawer-body">
+      <div class="filter-section">
+        <h4>Storage Type</h4>
+        <label class="filter-option"><input type="checkbox" name="storage" value="Frozen" /><span>❄️ Frozen</span></label>
+        <label class="filter-option"><input type="checkbox" name="storage" value="Cooler" /><span>🧊 Cooler</span></label>
+        <label class="filter-option"><input type="checkbox" name="storage" value="Dry" /><span>📦 Dry</span></label>
+      </div>
+      <div class="filter-section">
+        <h4>Season</h4>
+        <label class="filter-option"><input type="checkbox" name="season" value="Regular" /><span>🗓️ Regular</span></label>
+        <label class="filter-option"><input type="checkbox" name="season" value="Passover" /><span>🎉 Passover</span></label>
+      </div>
+      <div class="filter-section">
+        <h4>Class</h4>
+        <label class="filter-option"><input type="checkbox" name="class" value="Retail" /><span>🛒 Retail</span></label>
+        <label class="filter-option"><input type="checkbox" name="class" value="Food Service" /><span>🍽️ Food Service</span></label>
+      </div>
+    </div>
+    <div id="filter-drawer-footer">
+      <button id="clear-filters-btn">Limpiar</button>
+      <button id="apply-filters-btn">Aplicar Filtros</button>
+    </div>
+  </div>
+
+  <!-- PRODUCT MODAL -->
+  <div id="modal-overlay"></div>
+  <div id="product-modal">
+    <div id="modal-handle"></div>
+    <div id="modal-header">
+      <button id="modal-back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Volver
+      </button>
+      <span id="modal-sku-header"></span>
+    </div>
+    <div id="modal-body">
+      <div id="modal-img-wrap"></div>
+      <div id="modal-brand"></div>
+      <div id="modal-name"></div>
+      <div id="modal-badges"></div>
+      <div id="modal-info"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
