@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -11,171 +11,267 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header id="header">
-    <button class="icon-btn" id="menu-btn" aria-label="Menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-    <div class="logo">
-      <span class="logo-bv">BV</span>
-      <div class="logo-text">
-        <span class="logo-main">BEST VALUE</span>
-        <span class="logo-sub">Kosher Distributor · Miami</span>
-      </div>
-    </div>
-    <div style="width:38px"></div>
-  </header>
-
-  <!-- SEARCH BAR -->
-  <div id="search-bar">
-    <div class="search-wrap">
-      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" id="search-input" placeholder="Buscar producto, SKU, marca..." autocomplete="off" />
-    </div>
-    <button id="filter-btn">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-      </svg>
-      Filtros
-    </button>
-  </div>
-
-  <!-- ACTIVE FILTER TAGS -->
-  <div id="active-filters"></div>
-
-  <!-- MAIN CONTENT -->
-  <!-- HERO -->
-  <section id="hero">
-    <div id="hero-content">
-      <div id="hero-eyebrow">Welcome to Best Value Food Products</div>
-      <h1 id="hero-title">We are committed to delivering the quality your customers deserve.</h1>
-      <p id="hero-sub">At Best Value, we understand that quality is more than just a promise — it's what sets your business apart. Discover how we bring only the best to your shelves.</p>
-    </div>
-  </section>
-
-  <main id="main">
-    <div id="results-bar"></div>
-    <div id="loading">
-      <div class="spinner"></div>
-      <div>Cargando catálogo...</div>
-    </div>
-    <div id="product-grid"></div>
-    <div id="empty-state">
-      <div class="empty-emoji">🔍</div>
-      <div class="empty-title">Sin resultados</div>
-      <div class="empty-sub">Intenta con otra búsqueda o limpia los filtros</div>
-    </div>
-    <div id="load-more-wrap">
-      <button id="load-more-btn">Cargar más productos</button>
-    </div>
-  </main>
-
-  <!-- SIDEBAR OVERLAY -->
-  <div id="sidebar-overlay"></div>
-  <nav id="sidebar">
-    <div id="sidebar-header">
+  <!-- HOMEPAGE -->
+  <div id="homepage">
+    <header id="home-header">
       <div class="logo">
         <span class="logo-bv">BV</span>
         <div class="logo-text">
           <span class="logo-main">BEST VALUE</span>
-          <span class="logo-sub">Kosher Distributor</span>
+          <span class="logo-sub">Kosher Distributor · Miami</span>
         </div>
       </div>
-      <button class="icon-btn" id="sidebar-close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </header>
+
+    <section id="hero">
+      <div id="hero-content">
+        <div id="hero-eyebrow">Welcome to Best Value Food Products</div>
+        <h1 id="hero-title">We are committed to delivering the quality your customers deserve.</h1>
+        <p id="hero-sub">At Best Value, we understand that quality is more than just a promise — it's what sets your business apart. Discover how we bring only the best to your shelves.</p>
+      </div>
+    </section>
+
+    <section id="home-about">
+      <div id="home-about-inner">
+        <div id="home-tagline">
+          <span class="tagline-label">Who We Are</span>
+          <h2>Florida's Premier Kosher Food Wholesaler</h2>
+          <p>We're here to serve you and your customers. With over 2,500 premium kosher SKUs — meats, dairy, deli, bakery, frozen, and more — we bring unparalleled quality and competitive prices directly to your shelves.</p>
+        </div>
+        <div id="home-stats-row">
+          <div class="home-stat"><span class="home-stat-num">2,500+</span><span class="home-stat-label">SKUs</span></div>
+          <div class="home-stat"><span class="home-stat-num">100+</span><span class="home-stat-label">Brands</span></div>
+          <div class="home-stat"><span class="home-stat-num">48</span><span class="home-stat-label">Categories</span></div>
+          <div class="home-stat"><span class="home-stat-num">25+</span><span class="home-stat-label">Years</span></div>
+        </div>
+        <button id="enter-catalog-btn">
+          Browse Our Products
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <section id="home-contact">
+      <div id="home-contact-inner">
+        <span class="tagline-label">Get In Touch</span>
+        <h2>Let's Get In Touch!</h2>
+        <p>Join the ranks of our satisfied customers and bring unparalleled quality and competitive prices to your own customers.</p>
+        <div id="contact-items">
+          <a href="tel:+13056910700" class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .99h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div class="contact-detail">
+              <span class="contact-label">Phone</span>
+              <span class="contact-value">+1 (305) 691-0700</span>
+            </div>
+          </a>
+          <a href="mailto:contact@bvkosher.com" class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="contact-detail">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">contact@bvkosher.com</span>
+            </div>
+          </a>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-detail">
+              <span class="contact-label">Location</span>
+              <span class="contact-value">Miami, Florida</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="home-footer">
+      <p>© 2026 Best Value Food Products. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- CATALOG VIEW -->
+  <div id="catalog-view" style="display:none">
+    <header id="header">
+      <button class="icon-btn" id="menu-btn" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
       </button>
-    </div>
-    <div id="sidebar-body">
-      <button class="sidebar-item" onclick="clearAllFilters(); closeSidebar()">
-        <span class="sidebar-icon">🏠</span> Home
-      </button>
-      <div class="sidebar-divider"></div>
-
-      <div class="accordion-header" id="acc-cat-header">
-        <div class="acc-left"><span class="sidebar-icon">📦</span> Our Products</div>
-        <span class="accordion-arrow" id="acc-cat-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </span>
+      <div class="logo">
+        <span class="logo-bv">BV</span>
+        <div class="logo-text">
+          <span class="logo-main">BEST VALUE</span>
+          <span class="logo-sub">Kosher Distributor · Miami</span>
+        </div>
       </div>
-      <div class="accordion-body" id="acc-cat-body"></div>
-
-      <div class="accordion-header" id="acc-brand-header">
-        <div class="acc-left"><span class="sidebar-icon">🏷️</span> Our Brands</div>
-        <span class="accordion-arrow" id="acc-brand-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </span>
-      </div>
-      <div class="accordion-body" id="acc-brand-body"></div>
-
-      <div class="sidebar-divider"></div>
-      <button class="sidebar-item" onclick="filterBySeason('Passover'); closeSidebar()">
-        <span class="sidebar-icon">🎉</span> Passover
+      <button class="icon-btn" id="home-btn" title="Back to Home">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </button>
-      <button class="sidebar-item"><span class="sidebar-icon">ℹ️</span> About Us</button>
-      <button class="sidebar-item"><span class="sidebar-icon">📞</span> Contact</button>
-    </div>
-  </nav>
+    </header>
 
-  <!-- FILTER DRAWER -->
-  <div id="filter-overlay"></div>
-  <div id="filter-drawer">
-    <div id="filter-drawer-handle"></div>
-    <div id="filter-drawer-header">
-      <h3>Filtros</h3>
-      <button class="icon-btn dark" id="filter-drawer-close">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    <div id="search-bar">
+      <div class="search-wrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
+        <input type="text" id="search-input" placeholder="Search by name, SKU, brand..." autocomplete="off" />
+      </div>
+      <button id="filter-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        Filters
       </button>
     </div>
-    <div id="filter-drawer-body">
-      <div class="filter-section">
-        <h4>Storage Type</h4>
-        <label class="filter-option"><input type="checkbox" name="storage" value="Frozen" /><span>❄️ Frozen</span></label>
-        <label class="filter-option"><input type="checkbox" name="storage" value="Cooler" /><span>🧊 Cooler</span></label>
-        <label class="filter-option"><input type="checkbox" name="storage" value="Dry" /><span>📦 Dry</span></label>
+
+    <div id="active-filters"></div>
+
+    <main id="main">
+      <div id="results-bar"></div>
+      <div id="loading">
+        <div class="spinner"></div>
+        <div>Loading catalog...</div>
       </div>
-      <div class="filter-section">
-        <h4>Season</h4>
-        <label class="filter-option"><input type="checkbox" name="season" value="Regular" /><span>🗓️ Regular</span></label>
-        <label class="filter-option"><input type="checkbox" name="season" value="Passover" /><span>🎉 Passover</span></label>
+      <div id="product-grid"></div>
+      <div id="empty-state">
+        <div class="empty-emoji">🔍</div>
+        <div class="empty-title">No results found</div>
+        <div class="empty-sub">Try a different search or clear your filters</div>
       </div>
-      <div class="filter-section">
-        <h4>Class</h4>
-        <label class="filter-option"><input type="checkbox" name="class" value="Retail" /><span>🛒 Retail</span></label>
-        <label class="filter-option"><input type="checkbox" name="class" value="Food Service" /><span>🍽️ Food Service</span></label>
+      <div id="load-more-wrap">
+        <button id="load-more-btn">Load More Products</button>
+      </div>
+    </main>
+
+    <div id="sidebar-overlay"></div>
+    <nav id="sidebar">
+      <div id="sidebar-header">
+        <div class="logo">
+          <span class="logo-bv">BV</span>
+          <div class="logo-text">
+            <span class="logo-main">BEST VALUE</span>
+            <span class="logo-sub">Kosher Distributor</span>
+          </div>
+        </div>
+        <button class="icon-btn" id="sidebar-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div id="sidebar-body">
+        <button class="sidebar-item" onclick="showHomepage()"><span class="sidebar-icon">🏠</span> Home</button>
+        <button class="sidebar-item" onclick="clearAllFilters(); closeSidebar()"><span class="sidebar-icon">📋</span> All Products</button>
+        <button class="sidebar-item" onclick="filterByNew(); closeSidebar()"><span class="sidebar-icon">🆕</span> New Products</button>
+        <div class="sidebar-divider"></div>
+
+        <div class="accordion-header" id="acc-cat-header">
+          <div class="acc-left"><span class="sidebar-icon">📦</span> Our Products</div>
+          <span class="accordion-arrow" id="acc-cat-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="accordion-body" id="acc-cat-body"></div>
+
+        <div class="accordion-header" id="acc-brand-header">
+          <div class="acc-left"><span class="sidebar-icon">🏷️</span> Our Brands</div>
+          <span class="accordion-arrow" id="acc-brand-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="accordion-body" id="acc-brand-body"></div>
+
+        <div class="sidebar-divider"></div>
+        <button class="sidebar-item" onclick="filterBySeason('Passover'); closeSidebar()"><span class="sidebar-icon">🎉</span> Passover</button>
+        <button class="sidebar-item"><span class="sidebar-icon">ℹ️</span> About Us</button>
+        <button class="sidebar-item"><span class="sidebar-icon">📞</span> Contact</button>
+      </div>
+    </nav>
+
+    <div id="filter-overlay"></div>
+    <div id="filter-drawer">
+      <div id="filter-drawer-handle"></div>
+      <div id="filter-drawer-header">
+        <h3>Filters</h3>
+        <button class="icon-btn dark" id="filter-drawer-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div id="filter-drawer-body">
+        <div class="filter-section">
+          <h4>Featured</h4>
+          <label class="filter-option"><input type="checkbox" name="special" value="new" /><span>🆕 New Products</span></label>
+        </div>
+        <div class="filter-section">
+          <h4>Storage Type</h4>
+          <label class="filter-option"><input type="checkbox" name="storage" value="Frozen" /><span>❄️ Frozen</span></label>
+          <label class="filter-option"><input type="checkbox" name="storage" value="Cooler" /><span>🧊 Cooler</span></label>
+          <label class="filter-option"><input type="checkbox" name="storage" value="Dry" /><span>📦 Dry</span></label>
+        </div>
+        <div class="filter-section">
+          <h4>Season</h4>
+          <label class="filter-option"><input type="checkbox" name="season" value="Regular" /><span>🗓️ Regular</span></label>
+          <label class="filter-option"><input type="checkbox" name="season" value="Passover" /><span>🎉 Passover</span></label>
+        </div>
+        <div class="filter-section">
+          <h4>Class</h4>
+          <label class="filter-option"><input type="checkbox" name="class" value="Retail" /><span>🛒 Retail</span></label>
+          <label class="filter-option"><input type="checkbox" name="class" value="Food Service" /><span>🍽️ Food Service</span></label>
+        </div>
+        <div class="filter-section">
+          <div class="filter-accordion-header" id="brand-filter-header">
+            <h4>Brand</h4>
+            <svg class="filter-acc-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="filter-accordion-body" id="brand-filter-body">
+            <div id="brand-filter-list"></div>
+          </div>
+        </div>
+      </div>
+      <div id="filter-drawer-footer">
+        <button id="clear-filters-btn">Clear All</button>
+        <button id="apply-filters-btn">Apply Filters</button>
       </div>
     </div>
-    <div id="filter-drawer-footer">
-      <button id="clear-filters-btn">Limpiar</button>
-      <button id="apply-filters-btn">Aplicar Filtros</button>
+
+    <div id="modal-overlay"></div>
+    <div id="product-modal">
+      <div id="modal-handle"></div>
+      <div id="modal-header">
+        <button id="modal-back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <div id="modal-nav">
+          <button id="modal-prev-btn" title="Previous">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span id="modal-sku-header"></span>
+          <button id="modal-next-btn" title="Next">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="modal-body">
+        <div id="modal-img-wrap"></div>
+        <div id="modal-brand"></div>
+        <div id="modal-name"></div>
+        <div id="modal-badges"></div>
+        <div id="modal-info"></div>
+      </div>
     </div>
   </div>
 
-  <!-- PRODUCT MODAL -->
-  <div id="modal-overlay"></div>
-  <div id="product-modal">
-    <div id="modal-handle"></div>
-    <div id="modal-header">
-      <button id="modal-back-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-        Volver
-      </button>
-      <span id="modal-sku-header"></span>
-    </div>
-    <div id="modal-body">
-      <div id="modal-img-wrap"></div>
-      <div id="modal-brand"></div>
-      <div id="modal-name"></div>
-      <div id="modal-badges"></div>
-      <div id="modal-info"></div>
-    </div>
+  <!-- LIGHTBOX -->
+  <div id="lightbox">
+    <button id="lightbox-close">×</button>
+    <img id="lightbox-img" src="" alt="" />
   </div>
 
   <script src="js/app.js"></script>
