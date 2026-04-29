@@ -981,3 +981,60 @@ body {
   white-space: nowrap;
   pointer-events: none;
 }
+
+/* ── ABOUT US SECTION ─────────────────────────── */
+#home-about-us {
+  background: var(--bg);
+  padding: 48px 24px;
+  border-top: 1px solid var(--border);
+}
+#home-about-us-inner { max-width: 600px; margin: 0 auto; }
+#home-about-us h2 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+  color: var(--black);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+#home-about-us p {
+  font-size: 0.92rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+#about-values {
+  display: flex; flex-direction: column; gap: 16px;
+  margin-top: 28px;
+}
+.about-value {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.about-value-icon { font-size: 1.4rem; flex-shrink: 0; }
+.about-value-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--black);
+  display: block;
+  margin-bottom: 4px;
+}
+.about-value-text {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  display: block;
+}
+.about-value > div { display: flex; flex-direction: column; }
+
+/* Fix sidebar Contact as link */
+a.sidebar-item {
+  text-decoration: none;
+  color: var(--text);
+}
+
+@media (min-width: 640px) {
+  #about-values { flex-direction: row; }
+  .about-value { flex-direction: column; text-align: center; align-items: center; flex: 1; }
+}
