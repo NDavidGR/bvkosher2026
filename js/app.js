@@ -65,7 +65,7 @@ async function loadProducts() {
     const batch = 1000;
     while (true) {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/products?select=*&order=name.asc&limit=${batch}&offset=${from}`,
+        `${SUPABASE_URL}/rest/v1/products?select=*&active=eq.true&order=image_url.desc.nullslast,name.asc&limit=${batch}&offset=${from}`,
         { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
       );
       const data = await res.json();
@@ -128,7 +128,12 @@ function applyFilters() {
     if (filters.category && p.category !== filters.category) return false;
     if (filters.brand && p.brand !== filters.brand) return false;
     if (filters.storage.length && !filters.storage.includes(p.storage_type)) return false;
-    if (filters.seasonArr.length && !filters.seasonArr.includes(p.season)) return false;
+    if (filters.seasonArr.length) {
+      if (!filters.seasonArr.includes(p.season)) return false;
+    } else {
+      // By default hide Passover products
+      if (p.season === 'Passover') return false;
+    }
     if (filters.classArr.length && !filters.classArr.includes(p.class)) return false;
     if (filters.brandArr.length && !filters.brandArr.includes(p.brand)) return false;
     if (filters.isNew && !p.is_new) return false;
