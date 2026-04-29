@@ -37,6 +37,15 @@ function showHomepage() {
   window.scrollTo(0, 0);
 }
 
+function showAboutUs() {
+  document.getElementById('catalog-view').style.display = 'none';
+  document.getElementById('homepage').style.display = 'block';
+  closeSidebar();
+  setTimeout(() => {
+    document.getElementById('home-about-us').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
 // ── CATEGORY EMOJI MAP ────────────────────────────
 const CATEGORY_EMOJI = {
   'beef': '🥩', 'chicken': '🍗', 'dairy': '🧀', 'fish': '🐟',
