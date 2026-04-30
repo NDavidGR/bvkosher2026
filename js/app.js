@@ -373,7 +373,7 @@ async function exportPDF() {
   const MARGIN = 12;
   const CELL_W = (PAGE_W - MARGIN * 2) / COLS;
   const CELL_H = 52;
-  const IMG_SIZE = 28;
+  const IMG_SIZE = 34;
   const products = filteredProducts.slice(0, 200);
 
   // Pre-load all images in parallel batches of 10
@@ -484,7 +484,7 @@ function drawPlaceholder(doc, x, y, size) {
 
 async function fetchImageAsBase64(url) {
   try {
-    const smallUrl = url.replace('/upload/', '/upload/w_300,h_300,c_fit,f_jpg,q_85/');
+    const smallUrl = url.replace('/upload/', '/upload/w_400,h_400,c_fit,f_jpg,q_90/');
     const res = await fetch(smallUrl, { signal: AbortSignal.timeout(4000) });
     if (!res.ok) return null;
     const blob = await res.blob();
