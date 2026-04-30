@@ -129,12 +129,20 @@ function setupAccordion(headerId, bodyId, arrowId) {
 // ── FILTERING ─────────────────────────────────────
 function applyFilters() {
   const q = filters.search.toLowerCase().trim();
+  
+  // Word-boundary search: matches start of any word in the field
+  const matchesField = (value) => {
+    if (!value) return false;
+    const words = value.toLowerCase().split(/\s+/);
+    return words.some(word => word.startsWith(q));
+  };
+
   filteredProducts = allProducts.filter(p => {
     if (q && !(
-      (p.name || '').toLowerCase().includes(q) ||
-      (p.sku || '').toLowerCase().includes(q) ||
-      (p.brand || '').toLowerCase().includes(q) ||
-      (p.brand_short || '').toLowerCase().includes(q)
+      matchesField(p.name) ||
+      matchesField(p.sku) ||
+      matchesField(p.brand) ||
+      matchesField(p.brand_short)
     )) return false;
     if (filters.category && p.category !== filters.category) return false;
     if (filters.brand && p.brand !== filters.brand) return false;
@@ -476,7 +484,7 @@ function drawPlaceholder(doc, x, y, size) {
 
 async function fetchImageAsBase64(url) {
   try {
-    const smallUrl = url.replace('/upload/', '/upload/w_80,h_80,c_fit,f_jpg,q_60/');
+    const smallUrl = url.replace('/upload/', '/upload/w_300,h_300,c_fit,f_jpg,q_85/');
     const res = await fetch(smallUrl, { signal: AbortSignal.timeout(4000) });
     if (!res.ok) return null;
     const blob = await res.blob();
