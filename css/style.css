@@ -1038,3 +1038,56 @@ a.sidebar-item {
   #about-values { flex-direction: row; }
   .about-value { flex-direction: column; text-align: center; align-items: center; flex: 1; }
 }
+
+/* ── PDF BUTTON ───────────────────────────────── */
+#pdf-btn {
+  background: var(--bg);
+  color: var(--black);
+  border: 1.5px solid var(--border-dark);
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+#pdf-btn:hover { background: var(--yellow); border-color: var(--yellow); }
+
+/* PDF Loading overlay */
+#pdf-loading {
+  display: none;
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.7);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  color: #fff; font-size: 1rem; font-weight: 600;
+}
+#pdf-loading.open { display: flex; }
+#pdf-loading .spinner { border-color: rgba(255,255,255,0.3); border-top-color: var(--yellow); }
+
+/* ── PDF BUTTON FLOATING ──────────────────────── */
+#pdf-btn {
+  position: fixed;
+  bottom: 24px; right: 20px;
+  z-index: 150;
+  background: var(--black);
+  color: #fff;
+  border: none; cursor: pointer;
+  padding: 14px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: none;
+  align-items: center; gap: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  transition: background 0.15s, transform 0.1s;
+}
+#pdf-btn:hover { background: var(--yellow); color: var(--black); transform: scale(1.05); }
+#pdf-btn:active { transform: scale(0.97); }
+#pdf-btn:disabled { opacity: 0.6; cursor: wait; }
+#catalog-view.active #pdf-btn { display: flex; }

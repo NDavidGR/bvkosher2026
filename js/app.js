@@ -26,6 +26,7 @@ let filters = {
 function showCatalog() {
   document.getElementById('homepage').style.display = 'none';
   document.getElementById('catalog-view').style.display = 'block';
+  document.getElementById('pdf-btn').style.display = 'flex';
   window.scrollTo(0, 0);
   if (allProducts.length === 0) loadProducts();
 }
@@ -33,6 +34,7 @@ function showCatalog() {
 function showHomepage() {
   document.getElementById('catalog-view').style.display = 'none';
   document.getElementById('homepage').style.display = 'block';
+  document.getElementById('pdf-btn').style.display = 'none';
   closeSidebar();
   window.scrollTo(0, 0);
 }
@@ -343,7 +345,159 @@ function closeLightbox() {
   document.getElementById('lightbox-img').src = '';
 }
 
-// ── SIDEBAR ───────────────────────────────────────
+// ── PDF EXPORT ────────────────────────────────────
+async function exportPDF() {
+  const btn = document.getElementById('pdf-btn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳';
+
+  // Load jsPDF dynamically
+  if (!window.jspdf) {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
+
+  const COLS = 4;
+  const PAGE_W = 215.9;
+  const PAGE_H = 279.4;
+  const MARGIN = 12;
+  const CELL_W = (PAGE_W - MARGIN * 2) / COLS;
+  const CELL_H = 52;
+  const IMG_SIZE = 28;
+  const products = filteredProducts.slice(0, 200);
+
+  // Pre-load all images in parallel batches of 10
+  btn.innerHTML = '⏳ Loading...';
+  const imageCache = {};
+  const withImages = products.filter(p => p.image_url);
+  for (let i = 0; i < withImages.length; i += 10) {
+    const batch = withImages.slice(i, i + 10);
+    await Promise.all(batch.map(async p => {
+      imageCache[p.sku] = await fetchImageAsBase64(p.image_url);
+    }));
+  } // max 200
+
+  // Header
+  doc.setFillColor(10, 10, 10);
+  doc.rect(0, 0, PAGE_W, 14, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('BEST VALUE FOODS — Product Catalog', MARGIN, 9.5);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${products.length} products · ${new Date().toLocaleDateString()}`, PAGE_W - MARGIN, 9.5, { align: 'right' });
+
+  let x = MARGIN;
+  let y = 20;
+  let col = 0;
+
+  for (let i = 0; i < products.length; i++) {
+    const p = products[i];
+
+    // Cell background
+    doc.setFillColor(248, 248, 246);
+    doc.roundedRect(x, y, CELL_W - 2, CELL_H, 2, 2, 'F');
+
+    // Image
+    if (p.image_url) {
+      try {
+        const imgData = imageCache[p.sku];
+        if (imgData) {
+          doc.addImage(imgData, 'JPEG',
+            x + (CELL_W - 2 - IMG_SIZE) / 2, y + 2,
+            IMG_SIZE, IMG_SIZE, undefined, 'FAST');
+        } else {
+          drawPlaceholder(doc, x + (CELL_W - 2 - IMG_SIZE) / 2, y + 2, IMG_SIZE);
+        }
+      } catch(e) {
+        drawPlaceholder(doc, x + (CELL_W - 2 - IMG_SIZE) / 2, y + 2, IMG_SIZE);
+      }
+    } else {
+      drawPlaceholder(doc, x + (CELL_W - 2 - IMG_SIZE) / 2, y + 2, IMG_SIZE);
+    }
+
+    // SKU
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6);
+    doc.setTextColor(150, 150, 144);
+    doc.text(p.sku || '', x + (CELL_W - 2) / 2, y + IMG_SIZE + 5, { align: 'center' });
+
+    // Name
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(26, 26, 26);
+    const name = p.name || '';
+    const nameLines = doc.splitTextToSize(name, CELL_W - 6);
+    doc.text(nameLines.slice(0, 2), x + (CELL_W - 2) / 2, y + IMG_SIZE + 9, { align: 'center' });
+
+    // Brand
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6);
+    doc.setTextColor(100, 100, 94);
+    doc.text(p.brand || '', x + (CELL_W - 2) / 2, y + IMG_SIZE + 16, { align: 'center' });
+
+    col++;
+    if (col >= COLS) {
+      col = 0;
+      x = MARGIN;
+      y += CELL_H + 3;
+      if (y + CELL_H > PAGE_H - 10) {
+        doc.addPage();
+        y = 16;
+        // Page header
+        doc.setFillColor(10, 10, 10);
+        doc.rect(0, 0, PAGE_W, 12, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text('BEST VALUE FOODS', MARGIN, 8);
+      }
+    } else {
+      x += CELL_W;
+    }
+  }
+
+  doc.save(`BV-Catalog-${new Date().toISOString().slice(0,10)}.pdf`);
+
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg> PDF`;
+}
+
+function drawPlaceholder(doc, x, y, size) {
+  doc.setFillColor(224, 221, 215);
+  doc.roundedRect(x, y, size, size, 2, 2, 'F');
+  doc.setFillColor(180, 175, 168);
+  doc.rect(x + size*0.3, y + size*0.25, size*0.4, size*0.3, 'F');
+  doc.rect(x + size*0.2, y + size*0.55, size*0.6, size*0.2, 'F');
+}
+
+async function fetchImageAsBase64(url) {
+  try {
+    const smallUrl = url.replace('/upload/', '/upload/w_80,h_80,c_fit,f_jpg,q_60/');
+    const res = await fetch(smallUrl, { signal: AbortSignal.timeout(4000) });
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch(e) {
+    return null;
+  }
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
 function openSidebar() {
   document.getElementById('sidebar').classList.add('open');
   document.getElementById('sidebar-overlay').classList.add('open');
@@ -467,6 +621,9 @@ document.addEventListener('DOMContentLoaded', () => {
       applyFilters();
     }, 200);
   });
+
+  // PDF Export
+  document.getElementById('pdf-btn').addEventListener('click', exportPDF);
 
   // Load more
   document.getElementById('load-more-btn').addEventListener('click', () => {
