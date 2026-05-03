@@ -219,7 +219,10 @@ function renderCard(p) {
       <div class="card-img-wrap">${imgHtml}</div>
       ${badges ? `<div class="card-badges-row">${badges}</div>` : ''}
       <div class="card-body">
-        <div class="card-sku">${p.sku || ''}</div>
+        <div class="card-sku-row">
+          <span class="card-sku">${p.sku || ''}</span>
+          <span class="card-pack">${p.pack_size || ''}</span>
+        </div>
         <div class="card-name">${p.name || ''}</div>
         <div class="card-brand">${p.brand || ''}</div>
       </div>

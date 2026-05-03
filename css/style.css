@@ -1091,3 +1091,21 @@ a.sidebar-item {
 #pdf-btn:active { transform: scale(0.97); }
 #pdf-btn:disabled { opacity: 0.6; cursor: wait; }
 #catalog-view.active #pdf-btn { display: flex; }
+
+/* ── CARD SKU ROW ─────────────────────────────── */
+.card-sku-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+.card-pack {
+  font-size: 0.55rem;
+  color: var(--text-light);
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+}
