@@ -86,8 +86,8 @@ async function loadProducts() {
       from += batch;
     }
     allProducts = all.sort((a, b) => {
-      const aHasImg = a.image_url ? 1 : 0;
-      const bHasImg = b.image_url ? 1 : 0;
+      const aHasImg = (a.image_url && a.image_url.startsWith('http')) ? 1 : 0;
+      const bHasImg = (b.image_url && b.image_url.startsWith('http')) ? 1 : 0;
       if (bHasImg !== aHasImg) return bHasImg - aHasImg;
       return (a.name || '').localeCompare(b.name || '');
     });
@@ -236,7 +236,6 @@ function renderCard(p) {
   const badges = [
     makeBadge(storageMap, p.storage_type),
     makeBadge(classMap, p.class),
-    p.season === 'Passover' || p.season === 'Not Passover' ? makeBadge(seasonMap, p.season) : '',
     p.is_new ? `<span class="badge badge-new">🚨</span>` : '',
   ].filter(Boolean).join('');
 
