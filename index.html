@@ -137,12 +137,22 @@
         </svg>
         <input type="text" id="search-input" placeholder="Search by name, SKU, brand..." autocomplete="off" />
       </div>
-      <button id="filter-btn">
+      <button id="filter-btn" title="Filters">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
         </svg>
-        Filters
       </button>
+    </div>
+
+    <div id="quick-filters">
+      <button class="qf-btn" data-type="storage" data-value="Frozen" title="Frozen">❄️</button>
+      <button class="qf-btn" data-type="storage" data-value="Cooler" title="Cooler">🧊</button>
+      <button class="qf-btn" data-type="storage" data-value="Dry" title="Dry">📦</button>
+      <button class="qf-btn" data-type="class" data-value="Retail" title="Retail">🛒</button>
+      <button class="qf-btn" data-type="class" data-value="Food Service" title="Food Service">🍽️</button>
+      <button class="qf-btn" data-type="class" data-value="Sushi" title="Sushi">🍣</button>
+      <button class="qf-btn" data-type="class" data-value="Appetizers" title="Appetizers">🍢</button>
+      <button class="qf-btn" data-type="new" data-value="new" title="New Products">🚨</button>
     </div>
 
     <div id="active-filters"></div>

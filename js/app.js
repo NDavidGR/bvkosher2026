@@ -76,7 +76,7 @@ async function loadProducts() {
     const batch = 1000;
     while (true) {
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/products?select=*&active=eq.true&order=image_url.desc.nullslast,name.asc&limit=${batch}&offset=${from}`,
+        `${SUPABASE_URL}/rest/v1/products?select=*&active=eq.true&limit=${batch}&offset=${from}`,
         { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
       );
       const data = await res.json();
@@ -85,7 +85,12 @@ async function loadProducts() {
       if (data.length < batch) break;
       from += batch;
     }
-    allProducts = all;
+    allProducts = all.sort((a, b) => {
+      const aHasImg = a.image_url ? 1 : 0;
+      const bHasImg = b.image_url ? 1 : 0;
+      if (bHasImg !== aHasImg) return bHasImg - aHasImg;
+      return (a.name || '').localeCompare(b.name || '');
+    });
     buildSidebar();
     buildBrandFilterList();
     applyFilters();
@@ -129,12 +134,16 @@ function setupAccordion(headerId, bodyId, arrowId) {
 // ── FILTERING ─────────────────────────────────────
 function applyFilters() {
   const q = filters.search.toLowerCase().trim();
-  
-  // Word-boundary search: matches start of any word in the field
+  const qWords = q.split(/\s+/).filter(Boolean);
+
   const matchesField = (value) => {
     if (!value) return false;
-    const words = value.toLowerCase().split(/\s+/);
-    return words.some(word => word.startsWith(q));
+    const lower = value.toLowerCase();
+    const words = lower.split(/\s+/);
+    // Full phrase match
+    if (lower.includes(q)) return true;
+    // All query words must match start of some word
+    return qWords.every(qw => words.some(w => w.startsWith(qw)));
   };
 
   filteredProducts = allProducts.filter(p => {
@@ -173,6 +182,7 @@ function clearAllFilters() {
   filters = { search: '', category: '', brand: '', storage: [], seasonArr: [], classArr: [], isNew: false, brandArr: [] };
   document.getElementById('search-input').value = '';
   document.querySelectorAll('#filter-drawer input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.qf-btn').forEach(btn => btn.classList.remove('active'));
   applyFilters();
 }
 
@@ -198,15 +208,36 @@ function renderGrid() {
 
 function renderCard(p) {
   const emoji = getCategoryEmoji(p.category);
-  const storageMap = { 'Frozen': ['badge-frozen','❄️'], 'Cooler': ['badge-cooler','🧊'] };
-  const seasonMap  = { 'Passover': ['badge-passover','🎉'] };
-  const classMap   = { 'Food Service': ['badge-fs','🍽️'] };
+  const storageMap = {
+    'Frozen':   ['badge-frozen',  '❄️'],
+    'Cooler':   ['badge-cooler',  '🧊'],
+    'Dry':      ['badge-dry',     '📦'],
+  };
+  const classMap = {
+    'Food Service': ['badge-fs',    '🍽️'],
+    'Retail':       ['badge-retail','🛒'],
+    'Sushi':        ['badge-sushi', '🍣'],
+    'Appetizers':   ['badge-app',   '🍢'],
+  };
+  const seasonMap = {
+    'Passover':     ['badge-passover', '🎉'],
+    'Not Passover': ['badge-np',       '🚫'],
+  };
+
+  const makeBadge = (map, val) => {
+    if (!val || !map[val]) return '';
+    const [cls, icon] = map[val];
+    return `<span class="badge ${cls}" data-filter-type="${
+      cls.includes('frozen')||cls.includes('cooler')||cls.includes('dry') ? 'storage' :
+      cls.includes('passover')||cls.includes('np') ? 'season' : 'class'
+    }" data-filter-value="${val}">${icon}</span>`;
+  };
 
   const badges = [
-    storageMap[p.storage_type] ? `<span class="badge ${storageMap[p.storage_type][0]}">${storageMap[p.storage_type][1]}</span>` : '',
-    seasonMap[p.season]        ? `<span class="badge ${seasonMap[p.season][0]}">${seasonMap[p.season][1]}</span>` : '',
-    classMap[p.class]          ? `<span class="badge ${classMap[p.class][0]}">${classMap[p.class][1]}</span>` : '',
-    p.is_new                   ? `<span class="badge badge-new">🆕</span>` : '',
+    makeBadge(storageMap, p.storage_type),
+    makeBadge(classMap, p.class),
+    p.season === 'Passover' || p.season === 'Not Passover' ? makeBadge(seasonMap, p.season) : '',
+    p.is_new ? `<span class="badge badge-new">🚨</span>` : '',
   ].filter(Boolean).join('');
 
   const imgHtml = p.image_url
@@ -219,10 +250,8 @@ function renderCard(p) {
       <div class="card-img-wrap">${imgHtml}</div>
       ${badges ? `<div class="card-badges-row">${badges}</div>` : ''}
       <div class="card-body">
-        <div class="card-sku-row">
-          <span class="card-sku">${p.sku || ''}</span>
-          <span class="card-pack">${p.pack_size || ''}</span>
-        </div>
+        <div class="card-sku">${p.sku || ''}</div>
+        ${p.pack_size ? `<div class="card-pack">${p.pack_size}</div>` : ''}
         <div class="card-name">${p.name || ''}</div>
         <div class="card-brand">${p.brand || ''}</div>
       </div>
@@ -542,8 +571,42 @@ document.addEventListener('DOMContentLoaded', () => {
     arrow.classList.toggle('open');
   });
 
-  // Product card clicks - event delegation
+  // Quick filter buttons
+  document.querySelectorAll('.qf-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      const value = btn.dataset.value;
+      const isActive = btn.classList.contains('active');
+
+      // Toggle
+      btn.classList.toggle('active', !isActive);
+
+      if (type === 'storage') {
+        if (isActive) filters.storage = filters.storage.filter(x => x !== value);
+        else filters.storage = [...new Set([...filters.storage, value])];
+      } else if (type === 'class') {
+        if (isActive) filters.classArr = filters.classArr.filter(x => x !== value);
+        else filters.classArr = [...new Set([...filters.classArr, value])];
+      } else if (type === 'new') {
+        filters.isNew = !isActive;
+      }
+      applyFilters();
+    });
+  });
+
+  // Badge click to filter
   document.getElementById('product-grid').addEventListener('click', e => {
+    const badge = e.target.closest('.badge[data-filter-type]');
+    if (badge) {
+      e.stopPropagation();
+      const type = badge.dataset.filterType;
+      const value = badge.dataset.filterValue;
+      if (type === 'storage') filters.storage = [value];
+      else if (type === 'class') filters.classArr = [value];
+      else if (type === 'season') filters.seasonArr = [value];
+      applyFilters();
+      return;
+    }
     const card = e.target.closest('.product-card');
     if (card) openModal(card.dataset.sku);
   });
